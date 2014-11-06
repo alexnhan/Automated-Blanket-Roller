@@ -1,0 +1,39 @@
+#include <SoftwareSerial.h>
+ 
+SoftwareSerial mySerial(11, 10);
+int dataFromBT;
+int motorPinA = 8;
+int motorPinB = 9;
+ 
+void setup() {
+  Serial.begin(115200);
+ // Serial.println("LEDOnOff Starting...");
+ 
+  // The data rate for the SoftwareSerial port needs to 
+  // match the data rate for your bluetooth board.
+  pinMode(motorPinA, OUTPUT);
+  pinMode(motorPinB, OUTPUT);
+  mySerial.begin(115200);   
+} 
+//  if (Serial.available())
+  
+//    int speed = Serial.parseInt();
+//    digitalWrite(motorPinA, speed);
+//    digitalWrite(motorPinB, speed);
+ 
+void loop() {
+if (mySerial.available()){
+dataFromBT = mySerial.read();
+Serial.println(dataFromBT);
+}
+// 
+if ((dataFromBT == 48) || (dataFromBT == 152)){
+// Turn off Motors
+digitalWrite(motorPinA, LOW);
+digitalWrite(motorPinB, LOW);
+} else if (dataFromBT == 49) {
+// Turn on Motors
+digitalWrite(motorPinA, HIGH);
+digitalWrite(motorPinB, HIGH);
+  }
+}
